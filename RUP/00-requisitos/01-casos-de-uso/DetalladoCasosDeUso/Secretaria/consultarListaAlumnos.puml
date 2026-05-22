@@ -1,0 +1,40 @@
+@startuml consultarListaAlumnos
+title Consultar Lista Alumnos
+skinparam nodesep 100
+skinparam ranksep 100
+skinparam linetype ortho
+skinparam Padding 10
+
+state LISTAS_ABIERTO_INICIAL as "LISTAS_ABIERTO"
+state LISTA_ABIERTA_COMP     as "LISTA_ABIERTA"
+state LISTAS_ABIERTO_FINAL   as "LISTAS_ABIERTO"
+
+[*] -[#green]-> LISTAS_ABIERTO_INICIAL
+
+LISTAS_ABIERTO_INICIAL -[#green]-> LISTA_ABIERTA_COMP : consultarListaAlumnos()
+note left on link
+    <b>Secretaría solicita</b> consultar la lista de alumnos.
+    <b>Sistema presenta</b> la lista de alumnos.
+end note
+
+state LISTA_ABIERTA_COMP {
+    state VisualizacionLista as "Visualización de Lista"
+    [*] -[#green]-> VisualizacionLista
+    note right of VisualizacionLista
+        <b>Sistema muestra</b> la lista de alumnos matriculados:
+        • Nombres, apellidos e identificadores.
+        • Estado de la matrícula.
+    end note
+    VisualizacionLista -[#green]-> [*]
+}
+
+LISTA_ABIERTA_COMP -[#red]---> LISTAS_ABIERTO_FINAL : cerrarLista()
+note left on link
+    <b>CERRAR:</b>
+    <b>Secretaría solicita</b> salir de la lista.
+    <b>Sistema muestra</b> el listado de listas de alumnos.
+end note
+
+LISTAS_ABIERTO_FINAL -[#blue]-> [*]
+
+@enduml

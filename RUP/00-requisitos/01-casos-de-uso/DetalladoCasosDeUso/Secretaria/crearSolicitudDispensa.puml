@@ -1,0 +1,49 @@
+@startuml crearSolicitudDispensa_secretaria
+title Crear Solicitud de Dispensa
+skinparam nodesep 100
+skinparam ranksep 100
+skinparam linetype ortho
+skinparam Padding 10
+
+state DISPENSAS_ABIERTO_INICIAL      as "DISPENSAS_ABIERTO"
+state SOLICITUD_DISPENSA_ABIERTA_COMP as "SOLICITUD_DISPENSA_ABIERTA"
+state DISPENSAS_ABIERTO_FINAL        as "DISPENSAS_ABIERTO"
+
+[*] -[#green]-> DISPENSAS_ABIERTO_INICIAL
+
+DISPENSAS_ABIERTO_INICIAL -[#green]-> SOLICITUD_DISPENSA_ABIERTA_COMP : crearSolicitudDispensa()
+note left on link
+    <b>Secretaría solicita</b> crear una solicitud de dispensa.
+    <b>Sistema presenta</b> el formulario de la solicitud.
+end note
+
+state SOLICITUD_DISPENSA_ABIERTA_COMP {
+    state CapturaDatos as "Captura de Datos"
+    [*] -[#green]-> CapturaDatos
+    note right of CapturaDatos
+        <b>Secretaría introduce</b> los datos de la solicitud:
+        • Nombre/ID, asignatura y motivo.
+        • Documentos y fechas.
+        <b>Sistema registra</b> la solicitud.
+        <b>Sistema presenta</b> el detalle de la solicitud creada.
+    end note
+    CapturaDatos -[#green]-> [*]
+}
+
+SOLICITUD_DISPENSA_ABIERTA_COMP -[#green]---> DISPENSAS_ABIERTO_FINAL : guardarSolicitudDispensa()
+note left on link
+    <b>GUARDAR:</b>
+    <b>Secretaría solicita</b> guardar la solicitud.
+    <b>Sistema registra</b> la solicitud de dispensa.
+end note
+
+SOLICITUD_DISPENSA_ABIERTA_COMP -[#red]---> DISPENSAS_ABIERTO_FINAL : cerrarSolicitudDispensa()
+note right on link
+    <b>CERRAR:</b>
+    <b>Secretaría solicita</b> salir del formulario.
+    <b>Sistema descarta</b> los datos introducidos.
+end note
+
+DISPENSAS_ABIERTO_FINAL -[#blue]-> [*]
+
+@enduml

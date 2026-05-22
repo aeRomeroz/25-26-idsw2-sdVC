@@ -1,0 +1,48 @@
+@startuml editarSesionClase
+title Editar Sesión Clase
+skinparam nodesep 100
+skinparam ranksep 100
+skinparam linetype ortho
+skinparam Padding 10
+
+state SESION_ASISTENCIA_ABIERTA_INICIAL as "SESION_ASISTENCIA_ABIERTA"
+state EDITAR_SESION_COMP               as "SESION_ASISTENCIA_ABIERTA"
+state SESION_ASISTENCIA_ABIERTA_FINAL  as "SESION_ASISTENCIA_ABIERTA"
+
+[*] -[#green]-> SESION_ASISTENCIA_ABIERTA_INICIAL
+
+SESION_ASISTENCIA_ABIERTA_INICIAL -[#green]-> EDITAR_SESION_COMP : editarSesionClase()
+note left on link
+    <b>Profesor solicita</b> editar la sesión de clase.
+    <b>Sistema presenta</b> los datos de la sesión.
+end note
+
+state EDITAR_SESION_COMP {
+    state ModificacionDatos as "Modificación de Datos"
+    [*] -[#green]-> ModificacionDatos
+    note right of ModificacionDatos
+        <b>Profesor introduce</b> la información actualizada:
+        • Asignatura, grupo y aula.
+        • Fecha, hora y tema.
+        <b>Sistema muestra</b> el resumen de los cambios.
+    end note
+    ModificacionDatos -[#green]-> [*]
+}
+
+EDITAR_SESION_COMP -[#green]---> SESION_ASISTENCIA_ABIERTA_FINAL : guardarSesionClase()
+note left on link
+    <b>GUARDAR:</b>
+    <b>Profesor solicita</b> guardar los cambios.
+    <b>Sistema registra</b> los cambios de la sesión.
+end note
+
+EDITAR_SESION_COMP -[#red]---> SESION_ASISTENCIA_ABIERTA_FINAL : cerrarEdicion()
+note right on link
+    <b>CANCELAR:</b>
+    <b>Profesor solicita</b> salir sin guardar.
+    <b>Sistema descarta</b> los cambios introducidos.
+end note
+
+SESION_ASISTENCIA_ABIERTA_FINAL -[#blue]-> [*]
+
+@enduml

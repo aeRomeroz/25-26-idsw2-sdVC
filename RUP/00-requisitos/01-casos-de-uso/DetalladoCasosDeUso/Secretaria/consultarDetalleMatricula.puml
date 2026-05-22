@@ -1,0 +1,38 @@
+@startuml consultarDetalleMatricula
+title Consultar Detalle Matrícula
+skinparam nodesep 100
+skinparam ranksep 100
+skinparam linetype ortho
+skinparam Padding 10
+
+state MATRICULAS_ABIERTO_INICIAL as "MATRICULAS_ABIERTO"
+state MATRICULA_ABIERTA_COMP     as "MATRICULA_ABIERTA"
+state MATRICULAS_ABIERTO_FINAL   as "MATRICULAS_ABIERTO"
+
+[*] -[#green]-> MATRICULAS_ABIERTO_INICIAL
+
+MATRICULAS_ABIERTO_INICIAL -[#green]-> MATRICULA_ABIERTA_COMP : consultarDetalleMatricula()
+note left on link
+    <b>Secretaría solicita</b> consultar el detalle de una matrícula.
+    <b>Sistema presenta</b> el detalle de la matrícula.
+end note
+
+state MATRICULA_ABIERTA_COMP {
+    state VisualizacionDetalle as "Visualización de Detalle"
+    [*] -[#green]-> VisualizacionDetalle
+    note right of VisualizacionDetalle
+        <b>Sistema muestra</b> los datos de la matrícula.
+    end note
+    VisualizacionDetalle -[#green]-> [*]
+}
+
+MATRICULA_ABIERTA_COMP -[#red]---> MATRICULAS_ABIERTO_FINAL : cerrarDetalleMatricula()
+note left on link
+    <b>CERRAR:</b>
+    <b>Secretaría solicita</b> salir del detalle.
+    <b>Sistema muestra</b> el listado de matrículas.
+end note
+
+MATRICULAS_ABIERTO_FINAL -[#blue]-> [*]
+
+@enduml

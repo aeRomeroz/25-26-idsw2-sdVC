@@ -1,0 +1,39 @@
+@startuml consultarDetalleAlumno
+title Consultar Detalle Alumno
+skinparam nodesep 100
+skinparam ranksep 100
+skinparam linetype ortho
+skinparam Padding 10
+
+state ALUMNOS_ABIERTO_INICIAL as "ALUMNOS_ABIERTO"
+state ALUMNOS_ABIERTO_FINAL   as "ALUMNOS_ABIERTO"
+state ALUMNO_ABIERTO_COMP     as "ALUMNO_ABIERTO"
+
+[*] -[#green]-> ALUMNOS_ABIERTO_INICIAL
+
+ALUMNOS_ABIERTO_INICIAL -[#green]-> ALUMNO_ABIERTO_COMP : consultarDetalleAlumno()
+note left on link
+    <b>Profesor solicita</b> consultar el detalle de un alumno.
+    <b>Sistema presenta</b> la ficha del alumno.
+end note
+
+state ALUMNO_ABIERTO_COMP {
+    state VisualizacionFicha as "Visualización de Ficha"
+    [*] -[#green]-> VisualizacionFicha
+    note right of VisualizacionFicha
+        <b>Sistema muestra</b> la ficha completa del alumno:
+        • Datos personales y foto.
+        • Resumen de asistencias y faltas.
+    end note
+    VisualizacionFicha -[#green]-> [*]
+}
+
+ALUMNO_ABIERTO_COMP -[#red]-> ALUMNOS_ABIERTO_FINAL : cerrarDetalleAlumno()
+note left on link
+    <b>Profesor solicita</b> salir del detalle.
+    <b>Sistema muestra</b> el listado de alumnos.
+end note
+
+ALUMNOS_ABIERTO_FINAL -[#blue]-> [*]
+
+@enduml
