@@ -1,0 +1,38 @@
+@startuml crearUsuario-analisis
+skinparam linetype polyline
+
+' Componentes de contexto ()
+rectangle #CDEBA5 ":USUARIOS_ABIERTO" as UsuariosAbierto
+rectangle #CDEBA5 ":Collaboration ConsultarUsuario" as ConsultarUsuario
+
+' Paquete del Caso de Uso
+package crearUsuario as "crearUsuario()" {
+    rectangle #629EF9 CrearUsuarioView
+    rectangle #b5bd68 UsuarioController
+    rectangle #F2AC4E UsuarioRepository
+    rectangle #F2AC4E Usuario
+}
+
+
+' 1. Origen desde el contexto
+UsuariosAbierto -r-> CrearUsuarioView: crearUsuario()
+
+' 2. Primera validación de la vista al controlador
+CrearUsuarioView -d-> UsuarioController: validarDatosMínimos(username, password, rol) : boolean
+
+' 3. El controlador verifica unicidad en el repositorio
+UsuarioController --> UsuarioRepository: verificarUnicidad(username) : boolean
+
+' 4. La vista confirma la creación definitiva
+CrearUsuarioView --> UsuarioController: crearUsuario(username, password, rol) : Usuario
+
+' 5. El controlador persiste en el repositorio
+UsuarioController --> UsuarioRepository: crear(usuario) : Usuario
+
+' 6. Relación asociativa entre repositorio y entidad
+UsuarioRepository -- Usuario
+
+' 7. Inclusión al finalizar la creación
+CrearUsuarioView ..> ConsultarUsuario: <<include>> consultarUsuario(usuarioNuevo)
+
+@enduml

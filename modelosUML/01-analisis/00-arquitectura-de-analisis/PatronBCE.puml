@@ -1,0 +1,10 @@
+@startuml
+package "Modelo de Análisis (BCE)" {
+    class "<<boundary>>\nInterfazUsuario" as B
+    class "<<control>>\nControladorCasoUso" as C
+    class "<<entity>>\nEntidadDominio" as E
+
+    B -> C : solicita
+    C -> E : gestiona
+}
+@enduml

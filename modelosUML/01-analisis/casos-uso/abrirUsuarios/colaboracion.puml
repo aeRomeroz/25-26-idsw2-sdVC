@@ -1,0 +1,35 @@
+@startuml abrirUsuarios-analisis
+skinparam linetype polyline
+
+' Contexto
+rectangle #CDEBA5 ":SISTEMA_DISPONIBLE" as Menu
+rectangle #CDEBA5 ":USUARIOS_ABIERTO" as UsuariosAbierto
+rectangle #CDEBA5 ":Collaboration CrearUsuario" as CrearUsuarioColab
+rectangle #CDEBA5 ":Collaboration ConsultarUsuario" as ConsultarUsuarioColab
+
+' Paquete del Caso de Uso
+package abrirUsuarios as "abrirUsuarios()" {
+    rectangle #629EF9 ListarUsuariosView
+    rectangle #b5bd68 UsuarioController
+    rectangle #F2AC4E UsuarioRepository
+    rectangle #F2AC4E Usuario
+}
+
+' Flujo
+Menu -r-> ListarUsuariosView: abrirUsuarios()
+
+ListarUsuariosView -d-> UsuarioController: listarUsuarios() : List<Usuario>
+
+UsuarioController --> UsuarioRepository: obtenerTodos() : List<Usuario>
+UsuarioRepository -- Usuario
+
+ListarUsuariosView --> UsuarioController: filtrarUsuarios(criterio) : List<Usuario>
+UsuarioController --> UsuarioRepository: buscarPorCriterio(criterio) : List<Usuario>
+
+ListarUsuariosView -r-> UsuariosAbierto: presentarLista()
+
+' CORRECCIÓN: Se añaden los estereotipos <<include>> correspondientes
+ListarUsuariosView ..> CrearUsuarioColab: <<include>> crearUsuario()
+ListarUsuariosView ..> ConsultarUsuarioColab: <<include>> consultarUsuario(id)
+
+@enduml

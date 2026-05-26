@@ -1,0 +1,29 @@
+@startuml iniciarSesion-analisis
+skinparam linetype polyline
+
+' Contexto
+rectangle #CDEBA5 ":SESION_CERRADA" as NoAuth
+rectangle #CDEBA5 ":SISTEMA_DISPONIBLE" as Menu
+
+' Paquete del Caso de Uso
+package iniciarSesion as "iniciarSesion()" {
+    rectangle #629EF9 LoginView
+    rectangle #b5bd68 IniciarSesionController
+    rectangle #F2AC4E UsuarioRepository
+    rectangle #F2AC4E Usuario
+    rectangle #F2AC4E Sesion
+}
+
+' Flujo
+NoAuth -r-> LoginView: iniciarSesion()
+
+LoginView -d-> IniciarSesionController: autenticar(username, password) : Sesion
+
+IniciarSesionController --> UsuarioRepository: validarCredenciales(username, password) : Usuario
+UsuarioRepository -- Usuario
+
+IniciarSesionController --> Sesion: crearSesion(usuario) : Sesion
+
+LoginView -r-> Menu: sistemaDisponible(administrador)
+
+@enduml
