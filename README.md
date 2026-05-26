@@ -13,7 +13,7 @@ Construcción de un sistema con AI. Todo en el repositorio. [#2Think](2Think.md)
 |2|Código fuente|`/src`, o `/backend` y `/frontend` según el stack.|
 |3|Diagramas UML|Fuentes `.puml` en `/modelosUML`. SVGs en `/images`.|
 |4|Imágenes|En `/images`, referenciadas desde el README.|
-|5|Documentación adicional|En `/documents`.|
+|5|Documentación RUP|En `/RUP` (Requisitos, Análisis, Diseño, Desarrollo).|
 |6|**`conversation-log.md`**|Ver [`conversation-log.md`](conversation-log.md).|
 
 > Todos los artefactos, correctamente relacionados, son **obligatorios**.
